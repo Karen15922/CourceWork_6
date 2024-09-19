@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "cursework-6"
+version = "0.1.0"
+description = "курсовая 6: Django python_backend SkyPro"
+authors = ["UltimaKIND <minion9@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^5.1.1"
+pillow = "^10.4.0"
+psycopg2-binary = "^2.9.9"
+ipython = "^8.27.0"
+slugify = "^0.0.1"
+pytils = "^0.4.1"
+python-dotenv = "^1.0.1"
+redis = "^5.0.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
