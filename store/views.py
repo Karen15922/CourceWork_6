@@ -1,3 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.db.models.base import Model
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from store.models import Category, Product, Release
 
-# Create your views here.
+
+class ProductListView(ListView):
+    model = Product
+    success_url = reverse_lazy('store:product_list')
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    success_url = reverse_lazy('store:product_list')
+
+
+class ProductDetailView(DetailView):
+    model = Product
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    success_url = reverse_lazy('store:product_list')
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('store:product_list')
