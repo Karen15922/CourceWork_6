@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "cursework-6"
+name = "coursework-6"
 version = "0.1.0"
 description = "курсовая 6: Django python_backend SkyPro"
 authors = ["UltimaKIND <minion9@mail.ru>"]
