@@ -1,5 +1,5 @@
 from django.urls import path
-from apps import StoreConfig
+from store.apps import StoreConfig
 from store.views import ProductListView, ProductCreateView, ProductDetailView, ProductUpdateView, ProductDeleteView
 
 app_name = StoreConfig.name
