@@ -18,6 +18,11 @@ class ProductCreateView(CreateView):
 class ProductDetailView(DetailView):
     model = Product
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.request.session[f'{self.object}'] = 'test_message'
+        return context
+
 
 class ProductUpdateView(UpdateView):
     model = Product

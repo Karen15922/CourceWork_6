@@ -11,7 +11,7 @@ class Category(models.Model):
     '''
     category_name = models.CharField(
         max_length=100, verbose_name='название категории')
-    desctiption = models.TextField(
+    description = models.TextField(
         max_length=500, verbose_name='описание категории')
 
     def __str__(self):
@@ -29,7 +29,7 @@ class Product(models.Model):
     '''
     product_name = models.CharField(
         max_length=100, verbose_name='название продукта',)
-    desctiption = models.TextField(
+    description = models.TextField(
         max_length=500, verbose_name='описание продукта')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     product_image = models.ImageField(**NULLABLE)
@@ -45,4 +45,5 @@ class Release(models.Model):
         max_digits=3, decimal_places=2, default=0.01, verbose_name='номер версиии', help_text='Введите номер версии')
     version_name = models.CharField(
         max_length=100, verbose_name='Название версии', help_text='Введите название версии', **NULLABLE)
-    is_active = models.BooleanField(unique=True, default=True)
+    is_active = models.BooleanField(
+        verbose_name='активная версия', help_text='выберите активную версию')
