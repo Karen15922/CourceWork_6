@@ -1,6 +1,6 @@
 from platform import release
 from django.core.management import BaseCommand
-from store.models import Category, Product, Release
+from store.models import Category, Product
 
 
 class Command(BaseCommand):
@@ -42,12 +42,8 @@ class Command(BaseCommand):
         ]
 
         products_for_create = []
-        release_for_create = []
 
         for product in products_list:
             products_for_create.append(Product(**product))
-            release_for_create.append(
-                Release(product=products_for_create[-1], is_active=True,))
 
         Product.objects.bulk_create(products_for_create)
-        Release.objects.bulk_create(release_for_create)

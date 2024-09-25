@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 
 
 # константа для полей с возможно нулевыми значениями
@@ -15,7 +16,7 @@ class Category(models.Model):
         max_length=500, verbose_name='описание категории')
 
     def __str__(self):
-        return f'{self.pk} - {self.category_name}'
+        return f'{self.category_name}'
 
     class Meta:
         verbose_name = 'категория'
@@ -35,15 +36,21 @@ class Product(models.Model):
     product_image = models.ImageField(**NULLABLE)
     price = models.DecimalField(max_digits=6, decimal_places=2, **NULLABLE)
 
+    def __str__(self):
+        return f'{self.product_name}'
 
-class Release(models.Model):
+    class Meta:
+        verbose_name = 'продукт'
+        verbose_name_plural = 'продукты'
+
+
+class Views(models.Model):
     '''
-    модель продуктов
+    модель просмотров
     '''
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    version = models.DecimalField(
-        max_digits=3, decimal_places=2, default=0.01, verbose_name='номер версиии', help_text='Введите номер версии')
-    version_name = models.CharField(
-        max_length=100, verbose_name='Название версии', help_text='Введите название версии', **NULLABLE)
-    is_active = models.BooleanField(
-        verbose_name='активная версия', help_text='выберите активную версию')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'просмотр'
+        verbose_name_plural = 'просмотры'
