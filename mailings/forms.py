@@ -1,5 +1,4 @@
 from django.forms import ModelForm, BooleanField
-from django.core.exceptions import ValidationError
 from mailings.models import Mailing, Message, Client
 
 
@@ -40,7 +39,6 @@ class MessageForm(StyleFormMixin, ModelForm):
     """
     форма для создания и редактирования сообщения
     """
-
     class Meta:
         model = Message
         exclude = ['owner']
@@ -48,7 +46,7 @@ class MessageForm(StyleFormMixin, ModelForm):
 
 class ClientForm(StyleFormMixin, ModelForm):
     """
-    форма для создания и редактирования сообщения
+    форма для создания и редактирования клиента
     """
     class Meta:
         model = Client

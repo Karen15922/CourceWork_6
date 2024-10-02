@@ -35,6 +35,7 @@ class PasswordForm(PasswordResetForm):
     """
     Форма сброса пароля
     """
+
     class Meta:
         model = User
         fields = ('email',)

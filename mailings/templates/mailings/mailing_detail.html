@@ -13,12 +13,13 @@
                     <h4 class="my-0 font-weight-normal">{{ object.pk }}</h4>
                 </div>
                 <div class="card-body">
-                    <p>{{ object.status }}</p>
+                    <h3>{{ object.status }}</h3>
                     <p>{{ object.message }}</p>
                     <p>клиенты:</p>
                     {% for client in clients%}
                         <p>{{ client }}</p>
                     {% endfor %}
+                    <p>creator: {{ object.message }}</p>
                 </div>
 		        <div class="card-footer">
 		            <div class="btn-group">

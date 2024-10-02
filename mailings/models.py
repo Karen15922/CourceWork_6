@@ -1,14 +1,15 @@
 from users.models import User
 from django.db import models
 from django.utils import timezone
-from datetime import datetime, timedelta
 
 # константа для полей с возможно нулевыми значениями
 NULLABLE = {'blank': True, 'null': True}
 
 
 class Client(models.Model):
-
+    """
+    Модель клиента рассылки
+    """
     first_name = models.CharField(
         max_length=150, verbose_name="имя", default=None)
     last_name = models.CharField(
@@ -88,6 +89,7 @@ class Mailing(models.Model):
     clients = models.ManyToManyField(
         Client,
         verbose_name="клиенты",
+        related_name='clients'
     )
 
     periodicity = models.CharField(
@@ -105,7 +107,7 @@ class Mailing(models.Model):
     )
     next_date = models.DateTimeField(
         verbose_name="дата и время следующей отправки отправки",
-        **NULLABLE
+        auto_now_add=True
     )
 
     owner = models.ForeignKey(
@@ -130,19 +132,14 @@ class Mailing(models.Model):
 
 class Mailing_attempt(models.Model):
     """
-    Попытка отправки рассылки
+    Модель попытки отправки рассылки
     """
-
-    status_list = [
-        ("успешно", "успешно"),
-        ("не успешно", "не успешно"),
-    ]
 
     mailing = models.ForeignKey(
         Mailing,
         on_delete=models.CASCADE,
         verbose_name="рассылка",
-        related_name="attempt",
+        related_name="mailing",
     )
 
     last_attempt = models.DateTimeField(
@@ -152,9 +149,8 @@ class Mailing_attempt(models.Model):
 
     status = models.CharField(
         max_length=30,
-        choices=status_list,
         verbose_name="статус попытки",
-        default="не успешно",
+        default="fail",
     )
 
     smtp_service_report = models.TextField(

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    {% if user.is_authenticated %}
+        <p class="lead">лог рассылок</p>
+        <div class="row justify-content-md-center">
+        </div>
+    {% endif %}
+</div>
+
+<div class="container overflow-hidden">
+</div>
+{% endblock %}

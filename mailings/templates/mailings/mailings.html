@@ -32,10 +32,10 @@
             </div>
             <div class='card col-lg-2'>
                 <div class='card-header'>
-                    <a class="btn btn-outline-primary" href="#">лог рассылок</a>
+                    <a class="btn btn-outline-primary" href="{% url 'mailings:mailing_log' %}">лог рассылок</a>
                 </div>
                 <div class='card-body'>
-                    <p>всего проведено рассылок</p>
+                    <p>всего проведено рассылок: {{ attempt_number }}</p>
                 </div>
             </div>
         </div>

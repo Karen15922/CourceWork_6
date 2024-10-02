@@ -6,19 +6,6 @@ from blog.models import Post
 from pytils.translit import slugify
 
 
-def view_all(request):
-    """
-    просмотр всех постов
-    """
-    posts = Post.objects.all()
-    context = {
-        'object_list': posts,
-        'title': 'все посты'
-    }
-
-    return render(request, 'blog/view_all.html', context)
-
-
 class PostCreateView(CreateView):
     """
     контроллер создания поста

@@ -18,19 +18,19 @@
                         <h4 class="my-0 font-weight-normal">{{ message.pk }}</h4>
                     </div>
                     <div class="card-body">
-                        <h1>{{ message.title }}</h1>
+                        <h3>{{ message.title }}</h3>
                         <p>{{ message.content }}</p>
-                        <p>{{ message.owner }}</p>
+                        <p>creator: {{ message.owner }}</p>
                     </div>
                     <div class="card-footer">
-                        <a role="button" href="{% url 'mailings:message_detail' message.pk %}" class=" btn btn-lg btn-block btn-outline-primary">Подробнее</a>
+                        <a role="button" href="{% url 'mailings:message_detail' message.pk %}" class=" btn btn-lg btn-block btn-outline-primary">Подробнее</a><br>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
-        <div class='text-center'>
-            <a class="btn btn-outline-primary" href="{% url 'mailings:mailings' %}">назад</a>
-        </div>
+    <div class='text-center'>
+        <a class="btn btn-outline-primary" href="{% url 'mailings:mailings' %}">назад</a>
+    </div>
 </div>
 {% endblock %}

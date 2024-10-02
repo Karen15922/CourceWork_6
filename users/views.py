@@ -38,6 +38,9 @@ class RegisterView(CreateView):
 
 
 def email_verification(request, token):
+    '''
+    верификация пользователя
+    '''
     user = get_object_or_404(User, token=token)
     user.is_active = True
     user.save()
