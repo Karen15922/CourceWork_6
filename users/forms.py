@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordResetForm
-from store.forms import StyleFormMixin
+from mailings.forms import StyleFormMixin
 from django import forms
 from users.models import User
 

@@ -2,11 +2,11 @@
 {% load my_tags %}
 {% block content %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <p class="lead">здесь можно создавать и редактировать рассылки
-    </p>
     {% if user.is_authenticated %}
-        <div class="d-flex flex-row justify-content-evenly">
-            <div class='card'>
+        <p class="lead">сервис рассылок</p>
+        <div class="row justify-content-md-center">
+
+            <div class='card col-lg-2'>
                 <div class='card-header'>
                     <a class="btn btn-outline-primary" href="{% url 'mailings:mailing_list' %}">рассылки</a>
                 </div>
@@ -14,15 +14,23 @@
                     <p>всего рассылок {{ mailings_number }}</p>
                 </div>
             </div>
-            <div class='card'>
+            <div class='card col-lg-2'>
                 <div class='card-header'>
                     <a class="btn btn-outline-primary" href="{% url 'mailings:message_list' %}">сообщения</a>
                 </div>
                 <div class='card-body'>
-                    <p>всего сообщений{{ message_number }}</p>
+                    <p>всего сообщений {{ message_number }}</p>
                 </div>
             </div>
-            <div class='card'>
+            <div class='card col-lg-2'>
+                <div class='card-header'>
+                    <a class="btn btn-outline-primary" href="{% url 'mailings:client_list' %}">клиенты</a>
+                </div>
+                <div class='card-body'>
+                    <p>всего клиентов {{ clients_number }}</p>
+                </div>
+            </div>
+            <div class='card col-lg-2'>
                 <div class='card-header'>
                     <a class="btn btn-outline-primary" href="#">лог рассылок</a>
                 </div>
@@ -31,6 +39,8 @@
                 </div>
             </div>
         </div>
+    {% else %}
+        <p class="lead">сервис рассылок доступен только авторизованным пользователям</p>
     {% endif %}
 </div>
 

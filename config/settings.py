@@ -50,9 +50,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_crontab',
-    'store',
-    'users',
     'mailings',
+    'blog',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -117,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CRONJOBS = [('*/1 * * * *', 'mailings.services.get_clients')]
+# CRONJOBS = [('*/1 * * * *', 'mailings.services.get_clients')]
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 

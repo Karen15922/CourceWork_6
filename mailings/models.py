@@ -18,6 +18,12 @@ class Client(models.Model):
     email = models.EmailField(unique=True, verbose_name='почта', default=None)
     comment = models.TextField(
         max_length=100, verbose_name="Комментарий", **NULLABLE)
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Создатель клиента',
+        **NULLABLE,
+    )
 
     def __str__(self):
         return f'{self.email}'
@@ -37,7 +43,7 @@ class Message(models.Model):
         User,
         on_delete=models.CASCADE,
         verbose_name="Создатель сообщения",
-        **NULLABLE
+        **NULLABLE,
     )
 
     class Meta:
@@ -107,7 +113,7 @@ class Mailing(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Создатель рассылки",
         related_name='mailing_creator',
-        **NULLABLE
+        **NULLABLE,
     )
 
     class Meta:

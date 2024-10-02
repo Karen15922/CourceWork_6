@@ -11,16 +11,17 @@
 
 <div class="container overflow-hidden">
     <div class="row text-center gy-5">
-        {% for object in object_list %}
+        {% for mailing in mailings %}
             <div class="col-3">
                 <div class="card mb-4 box-shadow h-100">
                     <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">{{ object.pk }}</h4>
+                        <h4 class="my-0 font-weight-normal">{{ mailing.pk }}</h4>
                     </div>
                     <div class="card-body">
+                        <p>creator: {{ mailing.owner }}</p>
                     </div>
                     <div class="card-footer">
-                        <a role="button" href="{% url 'mailings:mailing_detail' object.pk %}" class=" btn btn-lg btn-block btn-outline-primary">Подробнее</a>
+                        <a role="button" href="{% url 'mailings:mailing_detail' mailing.pk %}" class=" btn btn-lg btn-block btn-outline-primary">Подробнее</a>
                     </div>
                 </div>
             </div>
