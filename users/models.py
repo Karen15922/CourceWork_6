@@ -9,6 +9,12 @@ class User(AbstractUser):
     Модель пользователя
     """
     username = None
+    first_name = models.CharField(
+        max_length=150, verbose_name="имя")
+    last_name = models.CharField(
+        max_length=150, verbose_name="фамилия")
+    pantronymic = models.CharField(
+        max_length=150, verbose_name="отчество", **NULLABLE)
     email = models.EmailField(unique=True, verbose_name='почта')
     phone = models.CharField(max_length=35, verbose_name='телефон', **NULLABLE)
     avatar = models.ImageField(
@@ -16,7 +22,7 @@ class User(AbstractUser):
     token = models.CharField(max_length=100, verbose_name='token', **NULLABLE)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['first_name', 'last_name']
 
     class Meta:
         verbose_name = 'Пользователь'

@@ -35,9 +35,14 @@
         </div>
         <div class="navbar navbar-dark bg-dark shadow-sm">
           <div class="container">
-            <a href="{% url 'store:product_list' %}" class="navbar-brand d-flex align-items-center">
-              <strong>store</strong>
-            </a>
+            <div class='navbar'>
+              <a href="{% url 'store:product_list' %}" class="navbar-brand d-flex align-items-center">
+                <strong>store</strong>
+              </a>
+              <a href="{% url 'mailings:mailings' %}" class="navbar-brand d-flex align-items-center">
+                <strong>mailings</strong>
+              </a>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="">
               <span class="navbar-toggler-icon"></span>
             </button>

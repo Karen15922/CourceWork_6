@@ -49,8 +49,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
     'store',
     'users',
+    'mailings',
 ]
 
 MIDDLEWARE = [
@@ -115,13 +117,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+CRONJOBS = [('*/1 * * * *', 'mailings.services.get_clients')]
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Samara'
 
 USE_I18N = True
 

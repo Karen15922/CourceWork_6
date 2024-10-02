@@ -48,8 +48,10 @@ class Views(models.Model):
     '''
     модель просмотров
     '''
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, related_name='category')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='user')
 
     class Meta:
         verbose_name = 'просмотр'

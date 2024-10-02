@@ -22,7 +22,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('store.urls', namespace='store')),
-    path('users/', include('users.urls', namespace='users'))
+    path('users/', include('users.urls', namespace='users')),
+    path('mailings/', include('mailings.urls', namespace='mailings')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

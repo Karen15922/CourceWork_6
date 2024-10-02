@@ -30,7 +30,7 @@ class RegisterView(CreateView):
         url = f'http://{host}/users/email-confirm/{token}'
         send_mail(
             subject="Подтверждение почты",
-            message=f"Привет, перейти по ссылке для подтверждения почты? {url}",
+            message=f'Привет, перейти по ссылке для подтверждения почты? {url}',
             from_email=EMAIL_HOST_USER,
             recipient_list=[user.email]
         )

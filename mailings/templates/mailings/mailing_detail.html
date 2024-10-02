@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <p class="lead">рассылки</p>
+</div>
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-4 offset-md-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ object.pk }}</h4>
+                </div>
+                <div class="card-body">
+                    <p>{{ object.status }}</p>
+                    <p>{{ object.message }}</p>
+                    <p>клиенты:</p>
+                    {% for client in clients%}
+                        <p>{{ client }}</p>
+                    {% endfor %}
+                </div>
+		        <div class="card-footer">
+		            <div class="btn-group">
+                        {% if user.is_authenticated %}
+		                    <a type="button" class="btn btn-sm btn-outline-secondary" href="{% url 'mailings:mailing_update' object.pk %}">edit</a>
+                            <a type="button" class="btn btn-sm btn-outline-secondary text-danger" href="{% url 'mailings:mailing_delete' object.pk %}">delete</a>
+                        {% endif %}
+                        <a role="button" href="{% url 'mailings:mailing_list' %}" class="btn btn-sm btn-outline-secondary">Назад</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
