@@ -1,33 +1,31 @@
-from users.models import User
 from django.db import models
 from django.utils import timezone
 
+from users.models import User
+
 # константа для полей с возможно нулевыми значениями
-NULLABLE = {'blank': True, 'null': True}
+NULLABLE = {"blank": True, "null": True}
 
 
 class Client(models.Model):
     """
     Модель клиента рассылки
     """
-    first_name = models.CharField(
-        max_length=150, verbose_name="имя", default=None)
-    last_name = models.CharField(
-        max_length=150, verbose_name="фамилия", default=None)
-    pantronymic = models.CharField(
-        max_length=150, verbose_name="отчество", **NULLABLE)
-    email = models.EmailField(unique=True, verbose_name='почта', default=None)
-    comment = models.TextField(
-        max_length=100, verbose_name="Комментарий", **NULLABLE)
+
+    first_name = models.CharField(max_length=150, verbose_name="имя", default=None)
+    last_name = models.CharField(max_length=150, verbose_name="фамилия", default=None)
+    pantronymic = models.CharField(max_length=150, verbose_name="отчество", **NULLABLE)
+    email = models.EmailField(unique=True, verbose_name="почта", default=None)
+    comment = models.TextField(max_length=100, verbose_name="Комментарий", **NULLABLE)
     owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='Создатель клиента',
+        verbose_name="Создатель клиента",
         **NULLABLE,
     )
 
     def __str__(self):
-        return f'{self.email}'
+        return f"{self.email}"
 
 
 class Message(models.Model):
@@ -57,9 +55,10 @@ class Message(models.Model):
 
 
 class Mailing(models.Model):
-    '''
+    """
     модель рассылки
-    '''
+    """
+
     periodicity_list = [
         ("однократно", "однократно"),
         ("ежедневно", "ежедневно"),
@@ -74,22 +73,19 @@ class Mailing(models.Model):
     ]
 
     created_at = models.DateTimeField(
-        default=timezone.now,
-        verbose_name='дата создания рассылки',
-        **NULLABLE)
+        default=timezone.now, verbose_name="дата создания рассылки", **NULLABLE
+    )
 
     message = models.ForeignKey(
         Message,
         on_delete=models.CASCADE,
-        verbose_name='сообщения',
-        related_name='message',
-        **NULLABLE
+        verbose_name="сообщения",
+        related_name="mailing",
+        **NULLABLE,
     )
 
     clients = models.ManyToManyField(
-        Client,
-        verbose_name="клиенты",
-        related_name='clients'
+        Client, verbose_name="клиенты", related_name="mailings"
     )
 
     periodicity = models.CharField(
@@ -106,15 +102,14 @@ class Mailing(models.Model):
         default="created",
     )
     next_date = models.DateTimeField(
-        verbose_name="дата и время следующей отправки отправки",
-        auto_now_add=True
+        verbose_name="дата и время следующей отправки отправки", auto_now_add=True
     )
 
     owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         verbose_name="Создатель рассылки",
-        related_name='mailing_creator',
+        related_name="mailing",
         **NULLABLE,
     )
 
@@ -139,11 +134,11 @@ class Mailing_attempt(models.Model):
         Mailing,
         on_delete=models.CASCADE,
         verbose_name="рассылка",
-        related_name="mailing",
+        related_name="mailing_attempt",
     )
 
-    last_attempt = models.DateTimeField(
-        verbose_name="дата и время последней попытки",
+    date_attempt = models.DateTimeField(
+        verbose_name="дата и время попытки",
         auto_now_add=True,
     )
 
@@ -154,8 +149,7 @@ class Mailing_attempt(models.Model):
     )
 
     smtp_service_report = models.TextField(
-        verbose_name="ответ почтового сервиса",
-        **NULLABLE
+        verbose_name="ответ почтового сервиса", **NULLABLE
     )
 
     class Meta:
@@ -163,4 +157,4 @@ class Mailing_attempt(models.Model):
         verbose_name_plural = "попытки"
 
     def __str__(self):
-        return f'mailing attempt pk:{self.pk}'
+        return f"mailing attempt pk:{self.pk}"

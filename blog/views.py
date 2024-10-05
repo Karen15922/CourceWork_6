@@ -1,18 +1,21 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models.base import Model as Model
-from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
-from blog.models import Post
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse, reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 from pytils.translit import slugify
+
+from blog.models import Post
 
 
 class PostCreateView(CreateView):
     """
     контроллер создания поста
     """
+
     model = Post
-    fields = ('title', 'content', 'image')
-    success_url = reverse_lazy('blog:post_list')
+    fields = ("title", "content", "image")
+    success_url = reverse_lazy("blog:post_list")
 
     def form_valid(self, form):
         if form.is_valid():
@@ -27,9 +30,10 @@ class PostUpdateView(UpdateView):
     """
     контроллер редактирования поста
     """
+
     model = Post
-    fields = ('title', 'content', 'image')
-    success_url = reverse_lazy('blog:post_list')
+    fields = ("title", "content", "image")
+    success_url = reverse_lazy("blog:post_list")
 
     def form_valid(self, form):
         if form.is_valid():
@@ -40,13 +44,14 @@ class PostUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return (reverse('blog:post_detail', args=[self.kwargs.get('pk')]))
+        return reverse("blog:post_detail", args=[self.kwargs.get("pk")])
 
 
 class PostListView(ListView):
     """
     контроллер списка постов
     """
+
     model = Post
 
     def get_queryset(self, *args, **kwargs):
@@ -61,6 +66,7 @@ class PostDetailView(DetailView):
     """
     контроллер детального просмотра поста
     """
+
     model = Post
 
     def get_object(self, queryset=None):
@@ -75,8 +81,9 @@ class PostDeleteView(DeleteView):
     """
     контроллер удаления поста
     """
+
     model = Post
-    success_url = reverse_lazy('blog:post_list')
+    success_url = reverse_lazy("blog:post_list")
 
 
 def published_toggle(request, pk):
@@ -90,4 +97,4 @@ def published_toggle(request, pk):
         post.is_published = True
 
     post.save()
-    return redirect(reverse('blog:post_list'))
+    return redirect(reverse("blog:post_list"))

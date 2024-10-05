@@ -7,4 +7,10 @@ register = template.Library()
 def media_filter(path):
     if path:
         return f"/media/{path}"
-    return '#'
+    return "#"
+
+
+@register.filter()
+def client_filter(queryset):
+    if queryset:
+        return ', '.join([client.email for client in queryset])

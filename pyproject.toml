@@ -17,6 +17,8 @@ python-dotenv = "^1.0.1"
 redis = "^5.0.8"
 django-crontab = "^0.7.1"
 pytz = "^2024.2"
+black = "^24.8.0"
+isort = "^5.13.2"
 
 
 [build-system]
