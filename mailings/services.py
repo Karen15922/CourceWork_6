@@ -76,8 +76,6 @@ def mailings_routine():
         "ежемесячно": timedelta(minutes=5),
     }
 
-    # mailings = Mailing.objects.filter(
-    # status='active', next_date__lte=datetime.now(t_zone))
     mailings = get_active_mailings().filter(next_date__lte=datetime.now(t_zone))
     for mailing in mailings:
         send_message(mailing)
