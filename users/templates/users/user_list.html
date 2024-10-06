@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <p class="lead">список зарегистрированных пользователей</p>
+</div>
+
+<div class="container overflow-hidden">
+    <div class="text-center">
+            <table class="mx-auto">
+                <thead>
+                <tr>
+                    <th><p>пользователь</p></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>
+                            <span class="align-middle">{{ user.email }}</span>
+                        </td>
+                        <td>
+                            <a  href="{% url 'users:user_update' user.pk %}" class="">подробнее</a>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+    </div>
+    <div class='text-center'>
+        <a class="btn btn-outline-primary" href="{% url 'mailings:mailings' %}">назад</a>
+    </div>
+</div>
+{% endblock %}

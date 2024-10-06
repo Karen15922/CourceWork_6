@@ -24,13 +24,13 @@
 		        <div class="card-footer">
 		            <div class="btn-group">
                         {% if user.is_authenticated %}
-		                    <a type="button" class="btn btn-sm btn-outline-secondary" href="{% url 'mailings:mailing_update' object.pk %}">edit</a>
+		                    <a type="button" class="btn btn-sm btn-outline-secondary" href="{% url 'mailings:mailing_moder_update' object.pk %}">edit</a>
 
                             {% if request.user == object.owner or perms.mailings_can_delete_mailing %}
                                 <a type="button" class="btn btn-sm btn-outline-secondary text-danger" href="{% url 'mailings:mailing_delete' object.pk %}">delete</a>
                             {% endif %}
                         {% endif %}
-                        <a role="button" href="{% url 'mailings:mailing_list' %}" class="btn btn-sm btn-outline-secondary">Назад</a>
+                        <a role="button" href="{% url 'mailings:mailing_moder_list' %}" class="btn btn-sm btn-outline-secondary">Назад</a>
                     </div>
                 </div>
             </div>

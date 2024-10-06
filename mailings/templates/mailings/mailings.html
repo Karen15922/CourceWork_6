@@ -2,45 +2,67 @@
 {% load my_tags %}
 {% block content %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    {% if user.is_authenticated %}
+    {% if perms.users.can_view_users and not user.is_superuser %}
         <p class="lead">сервис рассылок</p>
-        <div class="row justify-content-md-center">
+            <div class="row justify-content-md-center">
+                <div class='card col-lg-2'>
+                    <div class='card-header'>
+                        <a class="btn btn-outline-primary" href="{% url 'mailings:mailing_moder_list' %}">рассылки</a>
+                    </div>
+                    <div class='card-body'>
+                        <p>всего рассылок: {{ mailings_moder_number }}</p>
+                    </div>
+                </div>
+                <div class='card col-lg-2'>
+                    <div class='card-header'>
+                        <a class="btn btn-outline-primary" href="{% url 'users:users_list' %}">users</a>
+                    </div>
+                    <div class='card-body'>
+                        <p>всего зарегистрированных пользователей: {{ users }}</p>
+                    </div>
+                </div>
+            </div>
+                {% else %}
+        {% if user.is_authenticated %}
+            <p class="lead">сервис рассылок</p>
+            <div class="row justify-content-md-center">
 
-            <div class='card col-lg-2'>
-                <div class='card-header'>
-                    <a class="btn btn-outline-primary" href="{% url 'mailings:mailing_list' %}">рассылки</a>
+                <div class='card col-lg-2'>
+                    <div class='card-header'>
+                        <a class="btn btn-outline-primary" href="{% url 'mailings:mailing_list' %}">рассылки</a>
+                    </div>
+                    <div class='card-body'>
+                        <p>всего рассылок {{ mailings_number }}</p>
+                    </div>
                 </div>
-                <div class='card-body'>
-                    <p>всего рассылок {{ mailings_number }}</p>
+                <div class='card col-lg-2'>
+                    <div class='card-header'>
+                        <a class="btn btn-outline-primary" href="{% url 'mailings:message_list' %}">сообщения</a>
+                    </div>
+                    <div class='card-body'>
+                        <p>всего сообщений {{ message_number }}</p>
+                    </div>
+                </div>
+                <div class='card col-lg-2'>
+                    <div class='card-header'>
+                        <a class="btn btn-outline-primary" href="{% url 'mailings:client_list' %}">клиенты</a>
+                    </div>
+                    <div class='card-body'>
+                        <p>всего клиентов {{ clients_number }}</p>
+                    </div>
+                </div>
+                <div class='card col-lg-2'>
+                    <div class='card-header'>
+                        <a class="btn btn-outline-primary" href="{% url 'mailings:mailing_log' %}">лог рассылок</a>
+                    </div>
+                    <div class='card-body'>
+                        <p>всего проведено рассылок: {{ attempt_number }}</p>
+                    </div>
                 </div>
             </div>
-            <div class='card col-lg-2'>
-                <div class='card-header'>
-                    <a class="btn btn-outline-primary" href="{% url 'mailings:message_list' %}">сообщения</a>
-                </div>
-                <div class='card-body'>
-                    <p>всего сообщений {{ message_number }}</p>
-                </div>
-            </div>
-            <div class='card col-lg-2'>
-                <div class='card-header'>
-                    <a class="btn btn-outline-primary" href="{% url 'mailings:client_list' %}">клиенты</a>
-                </div>
-                <div class='card-body'>
-                    <p>всего клиентов {{ clients_number }}</p>
-                </div>
-            </div>
-            <div class='card col-lg-2'>
-                <div class='card-header'>
-                    <a class="btn btn-outline-primary" href="{% url 'mailings:mailing_log' %}">лог рассылок</a>
-                </div>
-                <div class='card-body'>
-                    <p>всего проведено рассылок: {{ attempt_number }}</p>
-                </div>
-            </div>
-        </div>
-    {% else %}
-        <p class="lead">сервис рассылок доступен только авторизованным пользователям</p>
+        {% else %}
+            <p class="lead">сервис рассылок доступен только авторизованным пользователям</p>
+        {% endif %}
     {% endif %}
 </div>
 

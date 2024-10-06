@@ -1,16 +1,18 @@
 import random
 import secrets
 import string
+from lib2to3.fixes.fix_input import context
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
-from django.db.models.base import Model as Model
+from django.forms import formset_factory
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 
 from config.settings import EMAIL_HOST_USER
-from users.forms import PasswordForm, UserProfileForm, UserRegistrationForm
+from users.forms import PasswordForm, UserProfileForm, UserRegistrationForm, UserForm
 from users.models import User
 
 
@@ -91,3 +93,22 @@ class NewPasswordView(PasswordResetView):
             recipient_list=[user.email],
         )
         return redirect(reverse("users:login"))
+
+class UserUpdateView(UpdateView):
+    model = User
+    form_class = UserForm
+    success_url = reverse_lazy("users:users_list")
+
+class UserListView(LoginRequiredMixin, ListView):
+    """
+    контроллер для страницы отображения списка клиентов
+    """
+
+    model = User
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context["users"] = User.objects.all()
+        return context
+

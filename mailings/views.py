@@ -4,9 +4,10 @@ from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView)
 
-from mailings.forms import ClientForm, MailingForm, MessageForm
+from mailings.forms import ClientForm, MailingForm, MessageForm, MailingModerForm
 from mailings.models import Client, Mailing, Mailing_attempt, Message
-from mailings.services import get_items_from_cache
+from users.models import User
+from mailings.services import get_items_from_cache, get_number_of_attempts
 
 
 class MailingView(TemplateView):
@@ -19,12 +20,16 @@ class MailingView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        context["mailings_number"] = len(get_items_from_cache("mailing", Mailing, user))
-        context["message_number"] = len(get_items_from_cache("message", Message, user))
-        context["clients_number"] = len(get_items_from_cache("client", Client, user))
-        context["attempt_number"] = len(
-            get_items_from_cache("attempts", Mailing_attempt, user)
-        )
+        if user.is_authenticated:
+            context["mailings_number"] = len(
+                get_items_from_cache("mailing", Mailing, user))
+            context["message_number"] = len(
+                get_items_from_cache("message", Message, user))
+            context["clients_number"] = len(
+                get_items_from_cache("client", Client, user))
+            context["attempt_number"] = get_number_of_attempts(user)
+            context["users"] = len(User.objects.all())
+            context["mailings_moder_number"] = len(Mailing.objects.all())
         return context
 
 
@@ -33,12 +38,12 @@ class MailingLogView(TemplateView):
     контроллер логов рассылок
     """
 
-    template_name = "mailings/mailing_log.html"
+    template_name = "mailings/mailing_attempt_list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        context["attempts"] = get_items_from_cache("attempts", Mailing_attempt, user)
+        context["mailings"] = get_items_from_cache("mailings", Mailing, user)
         return context
 
 
@@ -83,6 +88,15 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
         form_kwargs["user"] = self.request.user
         return form_kwargs
 
+class MailingModerUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    контроллер для страницы редактирования рассылки
+    """
+
+    model = Mailing
+    form_class = MailingModerForm
+    success_url = reverse_lazy("mailings:mailing_moder_list")
+
 
 class MailingListView(LoginRequiredMixin, ListView):
     """
@@ -97,6 +111,16 @@ class MailingListView(LoginRequiredMixin, ListView):
         context["mailings"] = get_items_from_cache("mailing", Mailing, user)
         return context
 
+class MailingModerListView(LoginRequiredMixin, ListView):
+    """
+    контроллер для страницы отображения списка рассылок
+    """
+    model = Mailing
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["mailings"] = Mailing.objects.all()
+        return context
 
 class MailingDetailView(LoginRequiredMixin, DetailView):
     """
@@ -110,6 +134,17 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
         context["clients"] = Client.objects.filter(owner=self.object.pk)
         return context
 
+class MailingModerDetailView(LoginRequiredMixin, DetailView):
+    """
+    контроллер для страницы детального отображения рассылки
+    """
+
+    model = Mailing
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["clients"] = Client.objects.filter(owner=self.object.pk)
+        return context
 
 class MailingDeleteView(PermissionRequiredMixin, DeleteView):
     """

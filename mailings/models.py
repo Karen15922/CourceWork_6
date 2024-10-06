@@ -15,7 +15,7 @@ class Client(models.Model):
     first_name = models.CharField(max_length=150, verbose_name="имя", default=None)
     last_name = models.CharField(max_length=150, verbose_name="фамилия", default=None)
     pantronymic = models.CharField(max_length=150, verbose_name="отчество", **NULLABLE)
-    email = models.EmailField(unique=True, verbose_name="почта", default=None)
+    email = models.EmailField(verbose_name="почта", default=None)
     comment = models.TextField(max_length=100, verbose_name="Комментарий", **NULLABLE)
     owner = models.ForeignKey(
         User,
@@ -157,4 +157,4 @@ class Mailing_attempt(models.Model):
         verbose_name_plural = "попытки"
 
     def __str__(self):
-        return f"mailing attempt pk:{self.pk}"
+        return f"attempt pk:{self.pk}"

@@ -12,10 +12,12 @@ from mailings.models import Mailing, Mailing_attempt
 t_zone = pytz.timezone(settings.TIME_ZONE)
 
 
-def get_items_from_cache(item, model, user):
+def get_items_from_cache(item, model, user, db=False):
     """
     возвращает объекты из кеша для пользователя
     """
+    if db:
+        return model.objects.all()
     if settings.CACHES_ENABLED:
         items = cache.get(item)
         if not items:
@@ -28,6 +30,10 @@ def get_items_from_cache(item, model, user):
             return items.filter(owner=user)
     return items
 
+def get_number_of_attempts(user):
+    mailings = user.mailing.all()
+    attempts = Mailing_attempt.objects.all().filter(mailing__in=mailings)
+    return len(attempts)
 
 def get_active_mailings():
     """
@@ -49,7 +55,7 @@ def send_message(mailing):
             [client.email for client in mailing.clients.all()],
         )
     except SMTPException as ex:
-        Mailing_attempt.objects.create(mailing=mailing, smtp_service_report=ex)
+        Mailing_attempt.objects.create(mailing=mailing, smtp_service_report=ex, owner=mailing.owner)
     else:
         Mailing_attempt.objects.create(
             mailing=mailing, smtp_service_report="отправлено", status="success"
@@ -63,7 +69,7 @@ def mailings_routine():
     time_adder = {
         "ежедневно": timedelta(minutes=1),
         "еженедельно": timedelta(minutes=3),
-        "ежедневно": timedelta(minutes=5),
+        "ежемесячно": timedelta(minutes=5),
     }
 
     # mailings = Mailing.objects.filter(

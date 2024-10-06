@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import (PasswordResetForm, UserChangeForm,
                                        UserCreationForm)
 
+
 from mailings.forms import StyleFormMixin
 from users.models import User
 
@@ -15,9 +16,6 @@ class UserRegistrationForm(UserCreationForm):
         model = User
         fields = (
             "email",
-            "first_name",
-            "last_name",
-            "pantronymic",
             "password1",
             "password2",
         )
@@ -30,7 +28,7 @@ class UserProfileForm(UserChangeForm, StyleFormMixin):
 
     class Meta:
         model = User
-        fields = ("email", "first_name", "last_name", "pantronymic", "phone", "avatar")
+        fields = ("email", "phone", "avatar")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -46,3 +44,9 @@ class PasswordForm(PasswordResetForm):
     class Meta:
         model = User
         fields = ("email",)
+
+class UserForm(forms.ModelForm, StyleFormMixin):
+
+       class Meta:
+            model = User
+            fields = ["email", "is_active" ]
