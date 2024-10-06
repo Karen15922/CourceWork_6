@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    {% if user.is_authenticated %}
+        {% if perms.users.can_view_users and not user.is_superuser %}
+            <p>рассылки</p>
+        {% else %}
+            <a class="btn btn-outline-primary" href="{% url 'mailings:mailing_create' %}">создать рассылку</a>
+            <p class="lead">здесь можно создавать и редактировать рассылки</p>
+        {% endif %}
+    {% endif %}
+</div>
+
+<div class="container overflow-hidden">
+    <div class="row text-center gy-5">
+        {% for mailing in mailings %}
+            <div class="col-3">
+                <div class="card mb-4 box-shadow h-100">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">{{ mailing.pk }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <h3>{{ mailing.status }}</h3>
+                        <p>клиенты:
+                            {{ mailing.clients.all | client_filter }}
+                        </p>
+                        <p>creator: {{ mailing.owner }}</p>
+                    </div>
+                    <div class="card-footer">
+                        {% if perms.users.can_view_users and not user.is_superuser %}
+                            <a role="button" href="{% url 'mailings:mailing_moder_update' mailing.pk %}" class=" btn btn-lg btn-block btn-outline-primary">редактировать</a>
+                        {% else %}
+                            <a role="button" href="{% url 'mailings:mailing_detail' mailing.pk %}" class=" btn btn-lg btn-block btn-outline-primary">Подробнее</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class='text-center'>
+        <a class="btn btn-outline-primary" href="{% url 'mailings:mailings' %}">назад</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    {% if user.is_authenticated %}
+        <p class="lead">Лог рассылок</p>
+        <div class="row justify-content-md-center">
+            {% for mailing in mailings %}
+                <div class="col-3">
+                    <div class="card mb-4 box-shadow h-100">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">mailing_id: {{ mailing.pk }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <h3>Статус рассылки: {{mailing.status}}</h3>
+                            <p> mailing attempts | total - {{ mailing.mailing_attempt.all | attempt_count_filter }}</p><br>
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        <p>date&time</p>
+                                    </th>
+                                    <th>
+                                        <p>status</p>
+                                    </th>
+                                    <th>
+                                        <p>report</p>
+                                    </th>
+                                </tr>
+                                    {% for attempt in mailing.mailing_attempt.all %}
+                                        <tr>
+                                            <th>
+                                                <p>{{ attempt.date_attempt }}</p>
+                                            </th>
+                                            <th>
+                                                <p>{{ attempt.status }}</p>
+                                            </th>
+                                            <th>
+                                                <p>{{ attempt.smtp_service_report }}</p>
+                                            </th>
+                                        </tr>
+                                    {% endfor %}
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<div class="container overflow-hidden">
+</div>
+{% endblock %}
