@@ -9,10 +9,11 @@ from django.core.mail import send_mail
 from django.forms import formset_factory
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
 
 from config.settings import EMAIL_HOST_USER
-from users.forms import PasswordForm, UserProfileForm, UserRegistrationForm, UserForm
+from users.forms import (PasswordForm, UserForm, UserProfileForm,
+                         UserRegistrationForm)
 from users.models import User
 
 
@@ -94,10 +95,12 @@ class NewPasswordView(PasswordResetView):
         )
         return redirect(reverse("users:login"))
 
+
 class UserUpdateView(UpdateView):
     model = User
     form_class = UserForm
     success_url = reverse_lazy("users:users_list")
+
 
 class UserListView(LoginRequiredMixin, ListView):
     """
@@ -111,4 +114,3 @@ class UserListView(LoginRequiredMixin, ListView):
         user = self.request.user
         context["users"] = User.objects.all()
         return context
-

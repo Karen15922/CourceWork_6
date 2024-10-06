@@ -3,7 +3,7 @@ from django.urls import path
 
 from users.apps import UsersConfig
 from users.views import (NewPasswordView, ProfileView, RegisterView,
-                         email_verification, UserUpdateView, UserListView)
+                         UserListView, UserUpdateView, email_verification)
 
 app_name = UsersConfig.name
 

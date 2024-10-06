@@ -33,6 +33,7 @@ class MailingForm(StyleFormMixin, ModelForm):
         model = Mailing
         exclude = ["owner"]
 
+
 class MailingModerForm(StyleFormMixin, ModelForm):
     """
     форма для создания и редактирования рассылки
@@ -41,6 +42,7 @@ class MailingModerForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Mailing
         fields = ["status"]
+
 
 class MessageForm(StyleFormMixin, ModelForm):
     """

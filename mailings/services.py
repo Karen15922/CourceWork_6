@@ -30,10 +30,12 @@ def get_items_from_cache(item, model, user, db=False):
             return items.filter(owner=user)
     return items
 
+
 def get_number_of_attempts(user):
     mailings = user.mailing.all()
     attempts = Mailing_attempt.objects.all().filter(mailing__in=mailings)
     return len(attempts)
+
 
 def get_active_mailings():
     """
@@ -55,7 +57,9 @@ def send_message(mailing):
             [client.email for client in mailing.clients.all()],
         )
     except SMTPException as ex:
-        Mailing_attempt.objects.create(mailing=mailing, smtp_service_report=ex, owner=mailing.owner)
+        Mailing_attempt.objects.create(
+            mailing=mailing, smtp_service_report=ex, owner=mailing.owner
+        )
     else:
         Mailing_attempt.objects.create(
             mailing=mailing, smtp_service_report="отправлено", status="success"
@@ -77,7 +81,7 @@ def mailings_routine():
     mailings = get_active_mailings().filter(next_date__lte=datetime.now(t_zone))
     for mailing in mailings:
         send_message(mailing)
-        if mailing.periodicity == 'однократно':
+        if mailing.periodicity == "однократно":
             mailing.status = "complited"
             mailing.save(update_fields=["status"])
         else:

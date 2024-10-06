@@ -4,10 +4,11 @@ from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView)
 
-from mailings.forms import ClientForm, MailingForm, MessageForm, MailingModerForm
+from mailings.forms import (ClientForm, MailingForm, MailingModerForm,
+                            MessageForm)
 from mailings.models import Client, Mailing, Mailing_attempt, Message
-from users.models import User
 from mailings.services import get_items_from_cache, get_number_of_attempts
+from users.models import User
 
 
 class MailingView(TemplateView):
@@ -22,11 +23,14 @@ class MailingView(TemplateView):
         user = self.request.user
         if user.is_authenticated:
             context["mailings_number"] = len(
-                get_items_from_cache("mailing", Mailing, user))
+                get_items_from_cache("mailing", Mailing, user)
+            )
             context["message_number"] = len(
-                get_items_from_cache("message", Message, user))
+                get_items_from_cache("message", Message, user)
+            )
             context["clients_number"] = len(
-                get_items_from_cache("client", Client, user))
+                get_items_from_cache("client", Client, user)
+            )
             context["attempt_number"] = get_number_of_attempts(user)
             context["users"] = len(User.objects.all())
             context["mailings_moder_number"] = len(Mailing.objects.all())
@@ -88,6 +92,7 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
         form_kwargs["user"] = self.request.user
         return form_kwargs
 
+
 class MailingModerUpdateView(LoginRequiredMixin, UpdateView):
     """
     контроллер для страницы редактирования рассылки
@@ -111,16 +116,19 @@ class MailingListView(LoginRequiredMixin, ListView):
         context["mailings"] = get_items_from_cache("mailing", Mailing, user)
         return context
 
+
 class MailingModerListView(LoginRequiredMixin, ListView):
     """
     контроллер для страницы отображения списка рассылок
     """
+
     model = Mailing
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["mailings"] = Mailing.objects.all()
         return context
+
 
 class MailingDetailView(LoginRequiredMixin, DetailView):
     """
@@ -134,6 +142,7 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
         context["clients"] = Client.objects.filter(owner=self.object.pk)
         return context
 
+
 class MailingModerDetailView(LoginRequiredMixin, DetailView):
     """
     контроллер для страницы детального отображения рассылки
@@ -145,6 +154,7 @@ class MailingModerDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["clients"] = Client.objects.filter(owner=self.object.pk)
         return context
+
 
 class MailingDeleteView(PermissionRequiredMixin, DeleteView):
     """
