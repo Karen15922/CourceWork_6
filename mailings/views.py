@@ -1,9 +1,12 @@
+import random
+
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin)
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView)
 
+from blog.models import Post
 from mailings.forms import (ClientForm, MailingForm, MailingModerForm,
                             MessageForm)
 from mailings.models import Client, Mailing, Mailing_attempt, Message
@@ -34,6 +37,11 @@ class MailingView(TemplateView):
             context["attempt_number"] = get_number_of_attempts(user)
             context["users"] = len(User.objects.all())
             context["mailings_moder_number"] = len(Mailing.objects.all())
+            posts = list(Post.objects.all())
+            if len(posts) <= 3:
+                context["posts"] = posts
+            else:
+                context["posts"] = random.sample(posts, 3)
         return context
 
 

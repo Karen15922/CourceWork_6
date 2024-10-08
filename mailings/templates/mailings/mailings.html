@@ -64,6 +64,28 @@
             <p class="lead">сервис рассылок доступен только авторизованным пользователям</p>
         {% endif %}
     {% endif %}
+    <div><br><br>
+        <p class="lead">три случайные статьи</p><br><br>
+
+        <div class="row justify-content-md-center">
+            {% for post in  posts %}
+                    <div class="col-2 offse">
+                        <div class="card mb-4 box-shadow">
+                            <div class="card-header">
+                                <h4 class="my-0 font-weight-normal">{{ post.title }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <img src="{{ post.image | media_filter }}" class="img-fluid">
+                                </div>
+                                <p>{{ object.content }}</p>
+                                <a role="button" href="{% url 'blog:post_detail' post.pk %}" class="btn btn-lg btn-block btn-outline-primary">подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
 <div class="container overflow-hidden">
