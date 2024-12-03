@@ -1,9 +1,8 @@
 [tool.poetry]
-name = "coursework-6"
+name = "coursework_6"
 version = "0.1.0"
-description = "курсовая 6: Django python_backend SkyPro"
-authors = ["UltimaKIND <minion9@mail.ru>"]
-readme = "README.md"
+description = ""
+authors = ["Карен <karen.karakeyan@yandex.ru>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -13,12 +12,12 @@ psycopg2-binary = "^2.9.9"
 ipython = "^8.27.0"
 slugify = "^0.0.1"
 pytils = "^0.4.1"
-python-dotenv = "^1.0.1"
 redis = "^5.0.8"
 django-crontab = "^0.7.1"
 pytz = "^2024.2"
 black = "^24.8.0"
 isort = "^5.13.2"
+python-dotenv = "^1.0.1"
 
 
 [build-system]

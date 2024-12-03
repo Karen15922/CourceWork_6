@@ -24,7 +24,7 @@ def mailing_attempt_filter(mailings):
 
 @register.filter()
 def mailing_attempt_display(attempt):
-    return f"{attempt.date_attempt.strftime("%Y-%m-%d %H:%M:%S")} {attempt.status} {attempt.smtp_service_report}"
+    return f"{attempt.date_attempt.strftime('%Y-%m-%d %H:%M:%S')} {attempt.status} {attempt.smtp_service_report}"
 
 
 @register.filter()
